@@ -33,7 +33,8 @@ var convertCity = function() {
     })
 }
 
-var getCityWeather = function (city) {
+
+var getCityWeather = function (lat, lon) {
 
     // from open weather API
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=914d3b53de5d88e879e5979ff877074b&units=imperial";
