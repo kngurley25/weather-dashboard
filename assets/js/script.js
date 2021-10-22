@@ -11,8 +11,8 @@ var searchedCitiesEl = document.querySelector("#searches");
 
 
 // convert city to latitude and longitude from position stack API
-var convertCity = function() {
-    var city = cityInputEl.value;
+var convertCity = function(cityName) {
+    var city = cityName;
 
     var GeoApiUrl = "http://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
     
@@ -82,7 +82,7 @@ var displayWeather = function(weather) {
     currentWeatherEl.appendChild(humidity);
     currentWeatherEl.appendChild(uvIndex);
 
-    // forecast
+    // forecast weather
     forecastWeatherEl.textContent = "";
 
     for (var i = 0; i < 5; i++) {
@@ -113,6 +113,15 @@ var displayWeather = function(weather) {
 
         forecastWeatherEl.appendChild(cardEl);
     }
+
+    weatherInfo.push(weather);
+    saveWeather();
+}
+
+// save to local storage
+var weatherInfo = [];
+var saveWeather = function() {
+    localStorage.setItem("weather",JSON.stringify(weatherInfo));
 }
 
 // get value from form input
@@ -133,15 +142,20 @@ var formSubmitHandler = function(event) {
 
         searchedCitiesEl.appendChild(previousCity);
 
-        localStorage.setItem(city, cityName);
-
     }
     else {
         alert("Please enter a city");
     }
 }
 
+// TODO write code function to load weather data from click on previous city button
+var loadWeatherData = function() {
+    
+}
+
 
 
 // add event listener to form element
 userFormEl.addEventListener("submit", formSubmitHandler);
+
+searchedCitiesEl.addEventListener("click", loadWeatherData);
