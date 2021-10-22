@@ -56,6 +56,9 @@ var getCityWeather = function (lat, lon) {
 
 // print weather data to page dynamic HTML
 var displayWeather = function(weather) {
+    
+    // clear old content
+    currentWeatherEl.textContent = ""
 
     // current weather    
     var currentDate = document.createElement("h6");
@@ -80,6 +83,8 @@ var displayWeather = function(weather) {
     currentWeatherEl.appendChild(uvIndex);
 
     // forecast
+    forecastWeatherEl.textContent = "";
+
     for (var i = 0; i < 5; i++) {
 
         var cardEl = document.createElement("div");
@@ -127,11 +132,16 @@ var formSubmitHandler = function(event) {
         previousCity.classList = "btn-small waves-effect waves-light blue-grey lighten-4 black-text";
 
         searchedCitiesEl.appendChild(previousCity);
+
+        localStorage.setItem(city, cityName);
+
     }
     else {
         alert("Please enter a city");
     }
 }
+
+
 
 // add event listener to form element
 userFormEl.addEventListener("submit", formSubmitHandler);
