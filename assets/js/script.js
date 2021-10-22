@@ -5,6 +5,10 @@ var cityInputEl = document.querySelector("#city");
 var currentWeatherEl = document.querySelector("#current-weather-container");
 var citySearchTerm = document.querySelector("#city-search-term");
 
+var forecastWeatherEl = document.querySelector("#forecast-container");
+
+var searchedCitiesEl = document.querySelector("#searches");
+
 
 // convert city to latitude and longitude from position stack API
 var convertCity = function() {
@@ -76,8 +80,34 @@ var displayWeather = function(weather) {
     currentWeatherEl.appendChild(uvIndex);
 
     // forecast
+    for (var i = 0; i < 5; i++) {
 
+        var cardEl = document.createElement("div");
+        cardEl.classList = "card blue lighten-5";
 
+        var forecastDate = document.createElement("h6");
+        forecastDate.classList = "card-content";
+        forecastDate.textContent = (new Date((weather.daily[i].dt)*1000).toLocaleString("en-US")).split(",")[0];
+
+        var temp = document.createElement("p");
+        temp.classList = "card-content";
+        temp.textContent = "Temp: " + weather.daily[i].temp.max + " ºF";
+
+        var wind = document.createElement("p");
+        wind.classList = "card-content";
+        wind.textContent = "Wind: " + weather.daily[i].wind_speed + " MPH";
+
+        var humidity = document.createElement("p");
+        humidity.classList = "card-content";
+        humidity.textContent = "Humidity: " + weather.daily[i].humidity + "%";
+
+        cardEl.appendChild(forecastDate);
+        cardEl.appendChild(temp);
+        cardEl.appendChild(wind);
+        cardEl.appendChild(humidity);
+
+        forecastWeatherEl.appendChild(cardEl);
+    }
 }
 
 // get value from form input
@@ -90,6 +120,13 @@ var formSubmitHandler = function(event) {
         convertCity(cityName);
         citySearchTerm.textContent = cityName;
         cityInputEl.value = "";
+
+        // create searched city button
+        var previousCity = document.createElement("button");
+        previousCity.textContent = cityName;
+        previousCity.classList = "btn-small waves-effect waves-light blue-grey lighten-4 black-text";
+
+        searchedCitiesEl.appendChild(previousCity);
     }
     else {
         alert("Please enter a city");
