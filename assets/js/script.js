@@ -19,10 +19,8 @@ var convertCity = function() {
                 console.log(location, city);
                 
                 var lat = location.data[0].latitude;
-                console.log(lat);
-    
                 var lon = location.data[0].longitude;
-                console.log(lon);
+                console.log(lat, lon);
 
                 getCityWeather(lat, lon);
     
@@ -43,8 +41,8 @@ var getCityWeather = function (lat, lon) {
         .then(function(response) {
             if (response.ok) {
                 response.json().then(function(data) {
-                    console.log(data, city);
-                    displayWeather(data, city);
+                    console.log(data);
+                    displayWeather(data);
                 });
             } else {
                 alert("Error: City not found.");
@@ -52,11 +50,13 @@ var getCityWeather = function (lat, lon) {
         })
 }
 
-// print weather data to page
-var displayWeather = function(weather, searchTerm) {
+// print weather data to page dynamic HTML
+var displayWeather = function(weather) {
 
-    citySearchTerm.textContent = searchTerm
-
+    // current weather    
+    var currentDate = document.createElement("h6");
+    currentDate.textContent = new Date((weather.current.dt)*1000).toLocaleString("en-US");
+    
     var temp = document.createElement("p");
     temp.textContent = "Temp: " + weather.current.temp + " ºF";
 
@@ -69,10 +69,14 @@ var displayWeather = function(weather, searchTerm) {
     var uvIndex = document.createElement("p");
     uvIndex.textContent = "UV Index: " + weather.current.uvi;
 
+    currentWeatherEl.appendChild(currentDate);
     currentWeatherEl.appendChild(temp);
     currentWeatherEl.appendChild(wind);
     currentWeatherEl.appendChild(humidity);
     currentWeatherEl.appendChild(uvIndex);
+
+    // forecast
+
 
 }
 
@@ -84,6 +88,7 @@ var formSubmitHandler = function(event) {
 
     if (cityName) {
         convertCity(cityName);
+        citySearchTerm.textContent = cityName;
         cityInputEl.value = "";
     }
     else {
