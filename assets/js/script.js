@@ -6,18 +6,36 @@ var currentWeatherEl = document.querySelector("#current-weather-container");
 var citySearchTerm = document.querySelector("#city-search-term");
 
 
-var lat = 38.98
-var lon = 94.67
+// convert city to latitude and longitude from position stack API
+var convertCity = function() {
+    var city = cityInputEl.value;
 
-// // open weather API call
-// var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=914d3b53de5d88e879e5979ff877074b&units=imperial";
+    var GeoApiUrl = "http://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
+    
+    fetch(GeoApiUrl)
+    .then(function(response) {
+        if (response.ok) {
+            response.json().then(function(location) {
+                console.log(location, city);
+                
+                var lat = location.data[0].latitude;
+                console.log(lat);
+    
+                var lon = location.data[0].longitude;
+                console.log(lon);
 
-// var response = fetch(apiUrl);
-// console.log(response);
-
+                getCityWeather(lat, lon);
+    
+            })
+        } else {
+            alert("Error: City not found.");
+        }
+    })
+}
 
 var getCityWeather = function (city) {
 
+    // from open weather API
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=914d3b53de5d88e879e5979ff877074b&units=imperial";
 
     fetch(apiUrl)
@@ -28,7 +46,7 @@ var getCityWeather = function (city) {
                     displayWeather(data, city);
                 });
             } else {
-                alert("Error: City not found");
+                alert("Error: City not found.");
             }
         })
 }
@@ -64,7 +82,7 @@ var formSubmitHandler = function(event) {
     var cityName = cityInputEl.value.trim();
 
     if (cityName) {
-        getCityWeather(cityName);
+        convertCity(cityName);
         cityInputEl.value = "";
     }
     else {
