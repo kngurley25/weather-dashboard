@@ -38,7 +38,7 @@ var convertCity = function(cityName) {
 var searchExistingCity = function(cityName) {
     var city = cityName;
 
-    var GeoApiUrl = "http://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
+    var GeoApiUrl = "https://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
     
     fetch(GeoApiUrl)
     .then(function(response) {
@@ -88,7 +88,7 @@ var displayWeather = function(weather) {
     currentDate.textContent = new Date((weather.current.dt)*1000).toLocaleString("en-US");
     
     var icon = document.createElement("img");
-    icon.src = "http://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png";
+    icon.src = "https://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png";
     
     var temp = document.createElement("p");
     temp.textContent = "Temp: " + weather.current.temp + " ºF";
