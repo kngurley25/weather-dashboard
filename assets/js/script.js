@@ -9,6 +9,8 @@ var forecastWeatherEl = document.querySelector("#forecast-container");
 
 var searchedCitiesEl = document.querySelector("#searches");
 
+var allWeatherEl = document.querySelector("#all-weather-container");
+
 
 // convert city to latitude and longitude from position stack API
 var convertCity = function(cityName) {
@@ -115,8 +117,15 @@ var displayWeather = function(weather) {
     }
 
     // TODO fix this
-    weatherInfo.push(weather);
+    allWeatherEl.setAttribute("weather-id", weatherIdCounter)
+    var weatherObjId = weatherIdCounter;
+    weatherInfo.push(weather, weatherObjId);
+
+    console.log(weatherInfo);
+
     saveWeather();
+
+    weatherIdCounter++;
 }
 
 // TODO fix this - save to local storage
@@ -144,12 +153,12 @@ var formSubmitHandler = function(event) {
         searchedCitiesEl.appendChild(previousCityEl);
 
         // TODO fix this
-        previousCityEl.setAttribute("weather-id", weatherIdCounter)
-        weatherInfo.push(weatherIdCounter);
+        // previousCityEl.setAttribute("weather-id", weatherIdCounter)
+        // weatherInfo.push(weatherIdCounter);
 
-        console.log(weatherIdCounter);
+        // console.log(weatherIdCounter);
 
-        weatherIdCounter++;
+        // weatherIdCounter++;
     }
     else {
         alert("Please enter a city");
