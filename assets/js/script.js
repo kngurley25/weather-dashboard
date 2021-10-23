@@ -107,9 +107,9 @@ var displayWeather = function(weather) {
     uvIndex.classList = "uv-index";
     uvIndex.appendChild(uvIndexNum);
 
-    if (weather.current.uvi < 3) {
+    if (weather.current.uvi < 2) {
         uvIndexNum.classList = "uv-index-num green accent-3";
-    } else if (3 < weather.current.uvi < 7) {
+    } else if (2 < weather.current.uvi < 7) {
         uvIndexNum.classList = "uv-index-num yellow lighten-3"
     } else if (7 < weather.current.uvi < 10) {
         uvIndexNum.classList = "uv-index-num red accent-2"
@@ -178,13 +178,6 @@ var formSubmitHandler = function(event) {
 
         cityInputEl.value = "";
 
-        // print searched city button to page
-        // var pastCityEl = document.createElement("button");
-        //     pastCityEl.textContent = cityName;
-        //     pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
-        //     searchedCitiesEl.appendChild(pastCityEl);
-        //     pastCityEl.addEventListener("click", formSubmitHandler);
-
         // save searched city to array
         if (pastSearches.includes(cityName) === false) {
             pastSearches.push(cityName);
@@ -197,7 +190,6 @@ var formSubmitHandler = function(event) {
             pastCityEl.addEventListener("click", formSubmitHandler);
         }
         
- 
         saveSearches();
 
     } else {
@@ -220,11 +212,15 @@ var loadSearches = function () {
     }
 
     for (var i = 0; i < savedSearches.length; i ++) {
-    var pastCityEl = document.createElement("button");
-        pastCityEl.textContent = savedSearches[i];
-        pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
-        searchedCitiesEl.appendChild(pastCityEl);
-        pastCityEl.addEventListener("click", formSubmitHandler);
+        
+        var pastCityEl = document.createElement("button");
+            pastCityEl.textContent = savedSearches[i];
+            pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+            searchedCitiesEl.appendChild(pastCityEl);
+
+            pastSearches.push(savedSearches[i]);
+
+            pastCityEl.addEventListener("click", formSubmitHandler);
     }
 
     localStorage.setItem("weather-searches", JSON.stringify(savedSearches));

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-An application in which a user can search by city and view current weather and five day forecast weather data. 
+An application in which a user can search by city to view current weather and five day forecast. 
 
 ## Technologies
 - HTML
