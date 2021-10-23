@@ -1,5 +1,5 @@
 // from HTML elements
-var userFormEl = document.querySelector("#user-form");
+var buttonEl = document.querySelector("#search-button");
 var cityInputEl = document.querySelector("#city");
 
 var currentWeatherEl = document.querySelector("#current-weather-container");
@@ -9,7 +9,6 @@ var forecastTitleEl = document.querySelector("#forecast-title");
 var forecastWeatherEl = document.querySelector("#forecast-container");
 
 var searchedCitiesEl = document.querySelector("#searches");
-
 
 // convert city to latitude and longitude from position stack API
 var convertCity = function(cityName) {
@@ -36,10 +35,33 @@ var convertCity = function(cityName) {
     })
 }
 
+var searchExistingCity = function(cityName) {
+    var city = cityName;
 
+    var GeoApiUrl = "http://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
+    
+    fetch(GeoApiUrl)
+    .then(function(response) {
+        if (response.ok) {
+            response.json().then(function(location) {
+                console.log(location, city);
+                
+                var lat = location.data[0].latitude;
+                var lon = location.data[0].longitude;
+                console.log(lat, lon);
+
+                getCityWeather(lat, lon);
+    
+            })
+        } else {
+            alert("Error: City not found.");
+        }
+    })
+}
+
+// open weather API call
 var getCityWeather = function (lat, lon) {
 
-    // from open weather API
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=914d3b53de5d88e879e5979ff877074b&units=imperial";
 
     fetch(apiUrl)
@@ -90,8 +112,6 @@ var displayWeather = function(weather) {
     // forecast weather
     forecastWeatherEl.textContent = "";
     
-    
-
     for (var i = 0; i < 5; i++) {
 
         var cardEl = document.createElement("div");
@@ -125,28 +145,15 @@ var displayWeather = function(weather) {
 
         forecastWeatherEl.appendChild(cardEl);
     }
-
-}
-
-// Save to local storage
-// var weatherInfo = [];
-// var saveWeather = function() {
-//     localStorage.setItem("weather",JSON.stringify(weatherInfo));
-// }
-
-var pastSearches = [];
-var saveSearches = function () {
-    
-    localStorage.setItem("weather-searches", JSON.stringify(pastSearches));
-    
 }
 
 // get value from form input
 var formSubmitHandler = function(event) {
     event.preventDefault();
-
-    var cityName = cityInputEl.value.trim();
-
+    var target = event.target;
+    console.log(event.target);
+    var cityName = target.getAttribute("type") !== "submit" ? target.textContent: cityInputEl.value.trim();
+    console.log(cityName);
     if (cityName) {
         convertCity(cityName);
 
@@ -160,6 +167,7 @@ var formSubmitHandler = function(event) {
             pastCityEl.textContent = cityName;
             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
             searchedCitiesEl.appendChild(pastCityEl);
+            pastCityEl.addEventListener("click", searchExistingCity(cityName));
 
         // save searched city to array
         if (pastSearches.includes(cityName) === false) {
@@ -167,32 +175,39 @@ var formSubmitHandler = function(event) {
             console.log(pastSearches);
         }
         saveSearches();
-
-        // TODO fix this
-        // previousCityEl.setAttribute("weather-id", weatherIdCounter)
-        // weatherInfo.push(weatherIdCounter);
-
-        // console.log(weatherIdCounter);
-
-        // weatherIdCounter++;
     }
     else {
         alert("Please enter a city");
     }
-    
-    // saveWeather();
 }
 
-// TODO fix this - write code function to load weather data from click on previous city button
-// var loadWeatherData = function() {
-//     var storedWeather = localStorage.getItem("weather");
+// save search items to local storage
+var pastSearches = [];
+var saveSearches = function () {
+    localStorage.setItem("weather-searches", JSON.stringify(pastSearches));
+}
 
-//     storedWeather = JSON.parse(storedWeather);
+var loadSearches = function () {
+    var savedSearches = JSON.parse(localStorage.getItem("weather-searches"));
+    console.log(savedSearches);
+    if (!savedSearches) {
+        return false;
+    }
 
-//     displayWeather(storedWeather["weather-id"]);
-// }
+    for (var i = 0; i < savedSearches.length; i ++) {
+    var pastCityEl = document.createElement("button");
+        pastCityEl.textContent = savedSearches[i];
+        pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+        searchedCitiesEl.appendChild(pastCityEl);
+        pastCityEl.addEventListener("click", formSubmitHandler);
+    }
+
+    localStorage.setItem("weather-searches", JSON.stringify(savedSearches));
+}
 
 // add event listener to form element
-userFormEl.addEventListener("submit", formSubmitHandler);
+buttonEl.addEventListener("click", formSubmitHandler);
 
-// searchedCitiesEl.addEventListener("click", convertCity(pastSearches[i]));
+// searchedCitiesEl.addEventListener("click", convertCity);
+
+loadSearches();
