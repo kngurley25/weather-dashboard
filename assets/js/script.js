@@ -65,10 +65,10 @@ var displayWeather = function(weather) {
 
     // current weather    
     var currentDate = document.createElement("h6");
+    currentDate.textContent = new Date((weather.current.dt)*1000).toLocaleString("en-US");
+    
     var icon = document.createElement("img");
-    // icon.src = "http://openweathermap.org/img/wn/10d@2x.png";
-    // icon.src = "http://openweathermap.org/img/wn/" + weather.current.weather.icon + "@2x.png"
-    currentDate.textContent = new Date((weather.current.dt)*1000).toLocaleString("en-US") + icon;
+    icon.src = "http://openweathermap.org/img/wn/" + weather.current.weather[0].icon + "@2x.png";
     
     var temp = document.createElement("p");
     temp.textContent = "Temp: " + weather.current.temp + " ºF";
@@ -83,6 +83,7 @@ var displayWeather = function(weather) {
     uvIndex.textContent = "UV Index: " + weather.current.uvi;
 
     currentWeatherEl.appendChild(currentDate);
+    currentWeatherEl.appendChild(icon);
     currentWeatherEl.appendChild(temp);
     currentWeatherEl.appendChild(wind);
     currentWeatherEl.appendChild(humidity);
@@ -104,6 +105,10 @@ var displayWeather = function(weather) {
         forecastDate.classList = "card-content";
         forecastDate.textContent = (new Date((weather.daily[i].dt)*1000).toLocaleString("en-US")).split(",")[0];
 
+        var icon = document.createElement("img");
+        icon.classList = "card-content";
+        icon.src = "http://openweathermap.org/img/wn/" + weather.daily[i].weather[0].icon + "@2x.png";
+        
         var temp = document.createElement("p");
         temp.classList = "card-content";
         temp.textContent = "Temp: " + weather.daily[i].temp.max + " ºF";
@@ -117,6 +122,7 @@ var displayWeather = function(weather) {
         humidity.textContent = "Humidity: " + weather.daily[i].humidity + "%";
 
         cardEl.appendChild(forecastDate);
+        cardEl.appendChild(icon);
         cardEl.appendChild(temp);
         cardEl.appendChild(wind);
         cardEl.appendChild(humidity);
