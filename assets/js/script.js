@@ -5,6 +5,7 @@ var cityInputEl = document.querySelector("#city");
 var currentWeatherEl = document.querySelector("#current-weather-container");
 var citySearchTerm = document.querySelector("#city-search-term");
 
+var forecastTitleEl = document.querySelector("#forecast-title");
 var forecastWeatherEl = document.querySelector("#forecast-container");
 
 var searchedCitiesEl = document.querySelector("#searches");
@@ -85,12 +86,16 @@ var displayWeather = function(weather) {
     currentWeatherEl.appendChild(uvIndex);
 
     // forecast weather
+    var forecastTitle = document.createElement("h5");
+    forecastTitle.textContent = "5-Day Forecast:";
+    forecastTitleEl.appendChild(forecastTitle);
+
     forecastWeatherEl.textContent = "";
 
     for (var i = 0; i < 5; i++) {
 
         var cardEl = document.createElement("div");
-        cardEl.classList = "card blue lighten-5";
+        cardEl.classList = "card-panel col m4 blue lighten-5";
 
         var forecastDate = document.createElement("h6");
         forecastDate.classList = "card-content";
@@ -113,6 +118,7 @@ var displayWeather = function(weather) {
         cardEl.appendChild(wind);
         cardEl.appendChild(humidity);
 
+        
         forecastWeatherEl.appendChild(cardEl);
     }
 
@@ -143,7 +149,7 @@ var formSubmitHandler = function(event) {
 
     if (cityName) {
         convertCity(cityName);
-        citySearchTerm.textContent = cityName;
+        citySearchTerm.textContent = "Showing weather data for: " + cityName;
         cityInputEl.value = "";
 
         // create searched city button
