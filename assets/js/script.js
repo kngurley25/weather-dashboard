@@ -65,7 +65,10 @@ var displayWeather = function(weather) {
 
     // current weather    
     var currentDate = document.createElement("h6");
-    currentDate.textContent = new Date((weather.current.dt)*1000).toLocaleString("en-US");
+    var icon = document.createElement("img");
+    // icon.src = "http://openweathermap.org/img/wn/10d@2x.png";
+    // icon.src = "http://openweathermap.org/img/wn/" + weather.current.weather.icon + "@2x.png"
+    currentDate.textContent = new Date((weather.current.dt)*1000).toLocaleString("en-US") + icon;
     
     var temp = document.createElement("p");
     temp.textContent = "Temp: " + weather.current.temp + " ºF";
@@ -95,7 +98,7 @@ var displayWeather = function(weather) {
     for (var i = 0; i < 5; i++) {
 
         var cardEl = document.createElement("div");
-        cardEl.classList = "card-panel col m4 blue lighten-5";
+        cardEl.classList = "card-panel col m2 blue lighten-5";
 
         var forecastDate = document.createElement("h6");
         forecastDate.classList = "card-content";
@@ -155,7 +158,7 @@ var formSubmitHandler = function(event) {
         // create searched city button
         var previousCityEl = document.createElement("button");
         previousCityEl.textContent = cityName;
-        previousCityEl.classList = "btn-small waves-effect waves-light blue-grey lighten-4 black-text";
+        previousCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
         searchedCitiesEl.appendChild(previousCityEl);
 
         // TODO fix this
