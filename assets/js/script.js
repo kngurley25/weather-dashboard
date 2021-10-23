@@ -99,8 +99,21 @@ var displayWeather = function(weather) {
     var humidity = document.createElement("p");
     humidity.textContent = "Humidity: " + weather.current.humidity + "%";
 
+    // uv index audit for background color
     var uvIndex = document.createElement("p");
-    uvIndex.textContent = "UV Index: " + weather.current.uvi;
+    var uvIndexNum = document.createElement("p");
+    uvIndexNum.textContent = weather.current.uvi;
+    uvIndex.textContent = "UV Index: ";
+    uvIndex.classList = "uv-index";
+    uvIndex.appendChild(uvIndexNum);
+
+    if (weather.current.uvi < 3) {
+        uvIndexNum.classList = "uv-index-num green accent-3";
+    } else if (3 < weather.current.uvi < 7) {
+        uvIndexNum.classList = "uv-index-num yellow lighten-3"
+    } else if (7 < weather.current.uvi < 10) {
+        uvIndexNum.classList = "uv-index-num red accent-2"
+    }
 
     currentWeatherEl.appendChild(currentDate);
     currentWeatherEl.appendChild(icon);
@@ -112,7 +125,7 @@ var displayWeather = function(weather) {
     // forecast weather
     forecastWeatherEl.textContent = "";
     
-    for (var i = 0; i < 5; i++) {
+    for (var i = 1; i < 6; i++) {
 
         var cardEl = document.createElement("div");
         cardEl.classList = "card-panel col m2 blue lighten-5";
@@ -150,10 +163,13 @@ var displayWeather = function(weather) {
 // get value from form input
 var formSubmitHandler = function(event) {
     event.preventDefault();
+
     var target = event.target;
     console.log(event.target);
+
     var cityName = target.getAttribute("type") !== "submit" ? target.textContent: cityInputEl.value.trim();
     console.log(cityName);
+
     if (cityName) {
         convertCity(cityName);
 
@@ -167,19 +183,21 @@ var formSubmitHandler = function(event) {
             pastCityEl.textContent = cityName;
             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
             searchedCitiesEl.appendChild(pastCityEl);
-            pastCityEl.addEventListener("click", searchExistingCity(cityName));
+            pastCityEl.addEventListener("click", formSubmitHandler);
 
         // save searched city to array
         if (pastSearches.includes(cityName) === false) {
             pastSearches.push(cityName);
-            console.log(pastSearches);
+            // console.log(pastSearches);
         }
+ 
         saveSearches();
-    }
-    else {
-        alert("Please enter a city");
+
+    } else {
+        alert("Please enter a city.");
     }
 }
+
 
 // save search items to local storage
 var pastSearches = [];
@@ -207,7 +225,5 @@ var loadSearches = function () {
 
 // add event listener to form element
 buttonEl.addEventListener("click", formSubmitHandler);
-
-// searchedCitiesEl.addEventListener("click", convertCity);
 
 loadSearches();

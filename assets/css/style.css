@@ -10,3 +10,15 @@ h1 {
 .card-panel {
     margin: 10px;
 }
+
+.uv-index {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+.uv-index-num {
+    padding: 3px;
+    border: 3px;
+    border-radius: 3px;
+    margin: 5px;
+}
