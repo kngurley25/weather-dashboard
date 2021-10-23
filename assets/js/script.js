@@ -10,8 +10,6 @@ var forecastWeatherEl = document.querySelector("#forecast-container");
 
 var searchedCitiesEl = document.querySelector("#searches");
 
-var allWeatherEl = document.querySelector("#all-weather-container");
-
 
 // convert city to latitude and longitude from position stack API
 var convertCity = function(cityName) {
@@ -128,24 +126,30 @@ var displayWeather = function(weather) {
         forecastWeatherEl.appendChild(cardEl);
     }
 
-    // TODO fix this
-    allWeatherEl.setAttribute("weather-id", weatherIdCounter)
-    var weatherObjId = weatherIdCounter;
-    weatherInfo.push(weather, weatherObjId);
-
-    console.log(weatherInfo);
-
-    saveWeather();
-
-    weatherIdCounter++;
 }
 
-// TODO fix this - save to local storage
-var weatherIdCounter = 0
-var weatherInfo = [];
-var saveWeather = function() {
-    localStorage.setItem("weather",JSON.stringify(weatherInfo));
-}
+// Save to local storage
+// var weatherInfo = [];
+// var saveWeather = function() {
+//     localStorage.setItem("weather",JSON.stringify(weatherInfo));
+// }
+
+var pastSearches = [];
+// var saveSearches = function() {
+
+//     for (var i = 0; i < pastSearches.length; i++) {
+//         var pastCityEl = document.createElement("button");
+//             pastCityEl.textContent = pastSearches[i];
+//             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+//             searchedCitiesEl.appendChild(pastCityEl);
+//     }
+//     pastSearches.forEach(function(cityName) {
+//         var pastCityEl = document.createElement("button");
+//             pastCityEl.textContent = cityName;
+//             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+//             searchedCitiesEl.appendChild(pastCityEl);
+//     })
+// }
 
 // get value from form input
 var formSubmitHandler = function(event) {
@@ -161,11 +165,17 @@ var formSubmitHandler = function(event) {
 
         cityInputEl.value = "";
 
-        // create searched city button
-        var previousCityEl = document.createElement("button");
-        previousCityEl.textContent = cityName;
-        previousCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
-        searchedCitiesEl.appendChild(previousCityEl);
+        // print searched city button to page
+        var pastCityEl = document.createElement("button");
+            pastCityEl.textContent = cityName;
+            pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+            searchedCitiesEl.appendChild(pastCityEl);
+
+        // save searched city to array
+        if (pastSearches.includes(cityName) === false) {
+            pastSearches.push(cityName);
+            console.log(pastSearches);
+        }
 
         // TODO fix this
         // previousCityEl.setAttribute("weather-id", weatherIdCounter)
@@ -179,19 +189,19 @@ var formSubmitHandler = function(event) {
         alert("Please enter a city");
     }
     
-    saveWeather();
+    // saveWeather();
 }
 
 // TODO fix this - write code function to load weather data from click on previous city button
-var loadWeatherData = function() {
-    var storedWeather = localStorage.getItem("weather");
+// var loadWeatherData = function() {
+//     var storedWeather = localStorage.getItem("weather");
 
-    storedWeather = JSON.parse(storedWeather);
+//     storedWeather = JSON.parse(storedWeather);
 
-    displayWeather(storedWeather["weather-id"]);
-}
+//     displayWeather(storedWeather["weather-id"]);
+// }
 
 // add event listener to form element
 userFormEl.addEventListener("submit", formSubmitHandler);
 
-searchedCitiesEl.addEventListener("click", loadWeatherData);
+// searchedCitiesEl.addEventListener("click", convertCity(pastSearches[i]));
