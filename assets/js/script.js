@@ -14,7 +14,7 @@ var searchedCitiesEl = document.querySelector("#searches");
 var convertCity = function(cityName) {
     var city = cityName;
 
-    var GeoApiUrl = "http://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
+    var GeoApiUrl = "https://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
     
     fetch(GeoApiUrl)
     .then(function(response) {
