@@ -56,7 +56,7 @@ var getCityWeather = function (lat, lon) {
 
 // print weather data to page dynamic HTML
 var displayWeather = function(weather) {
-    
+
     // clear old content
     currentWeatherEl.textContent = ""
 
@@ -114,11 +114,13 @@ var displayWeather = function(weather) {
         forecastWeatherEl.appendChild(cardEl);
     }
 
+    // TODO fix this
     weatherInfo.push(weather);
     saveWeather();
 }
 
-// save to local storage
+// TODO fix this - save to local storage
+var weatherIdCounter = 0
 var weatherInfo = [];
 var saveWeather = function() {
     localStorage.setItem("weather",JSON.stringify(weatherInfo));
@@ -136,24 +138,34 @@ var formSubmitHandler = function(event) {
         cityInputEl.value = "";
 
         // create searched city button
-        var previousCity = document.createElement("button");
-        previousCity.textContent = cityName;
-        previousCity.classList = "btn-small waves-effect waves-light blue-grey lighten-4 black-text";
+        var previousCityEl = document.createElement("button");
+        previousCityEl.textContent = cityName;
+        previousCityEl.classList = "btn-small waves-effect waves-light blue-grey lighten-4 black-text";
+        searchedCitiesEl.appendChild(previousCityEl);
 
-        searchedCitiesEl.appendChild(previousCity);
+        // TODO fix this
+        previousCityEl.setAttribute("weather-id", weatherIdCounter)
+        weatherInfo.push(weatherIdCounter);
 
+        console.log(weatherIdCounter);
+
+        weatherIdCounter++;
     }
     else {
         alert("Please enter a city");
     }
-}
-
-// TODO write code function to load weather data from click on previous city button
-var loadWeatherData = function() {
     
+    saveWeather();
 }
 
+// TODO fix this - write code function to load weather data from click on previous city button
+var loadWeatherData = function() {
+    var storedWeather = localStorage.getItem("weather");
 
+    storedWeather = JSON.parse(storedWeather);
+
+    displayWeather(storedWeather["weather-id"]);
+}
 
 // add event listener to form element
 userFormEl.addEventListener("submit", formSubmitHandler);
