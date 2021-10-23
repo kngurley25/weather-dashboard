@@ -10,7 +10,7 @@ var forecastWeatherEl = document.querySelector("#forecast-container");
 
 var searchedCitiesEl = document.querySelector("#searches");
 
-// convert city to latitude and longitude from position stack API
+// convert city to latitude and longitude
 var convertCity = function(cityName) {
     var city = cityName;
 
@@ -25,30 +25,6 @@ var convertCity = function(cityName) {
                 
                 var lat = location[0].lat;
                 var lon = location[0].lon;
-                console.log(lat, lon);
-
-                getCityWeather(lat, lon);
-    
-            })
-        } else {
-            alert("Error: City not found.");
-        }
-    })
-}
-
-var searchExistingCity = function(cityName) {
-    var city = cityName;
-
-    var GeoApiUrl = "https://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
-    
-    fetch(GeoApiUrl)
-    .then(function(response) {
-        if (response.ok) {
-            response.json().then(function(location) {
-                console.log(location, city);
-                
-                var lat = location.data[0].latitude;
-                var lon = location.data[0].longitude;
                 console.log(lat, lon);
 
                 getCityWeather(lat, lon);
