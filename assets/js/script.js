@@ -135,21 +135,11 @@ var displayWeather = function(weather) {
 // }
 
 var pastSearches = [];
-// var saveSearches = function() {
-
-//     for (var i = 0; i < pastSearches.length; i++) {
-//         var pastCityEl = document.createElement("button");
-//             pastCityEl.textContent = pastSearches[i];
-//             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
-//             searchedCitiesEl.appendChild(pastCityEl);
-//     }
-//     pastSearches.forEach(function(cityName) {
-//         var pastCityEl = document.createElement("button");
-//             pastCityEl.textContent = cityName;
-//             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
-//             searchedCitiesEl.appendChild(pastCityEl);
-//     })
-// }
+var saveSearches = function () {
+    
+    localStorage.setItem("weather-searches", JSON.stringify(pastSearches));
+    
+}
 
 // get value from form input
 var formSubmitHandler = function(event) {
@@ -176,6 +166,7 @@ var formSubmitHandler = function(event) {
             pastSearches.push(cityName);
             console.log(pastSearches);
         }
+        saveSearches();
 
         // TODO fix this
         // previousCityEl.setAttribute("weather-id", weatherIdCounter)
