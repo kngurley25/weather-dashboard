@@ -90,11 +90,9 @@ var displayWeather = function(weather) {
     currentWeatherEl.appendChild(uvIndex);
 
     // forecast weather
-    var forecastTitle = document.createElement("h5");
-    forecastTitle.textContent = "5-Day Forecast:";
-    forecastTitleEl.appendChild(forecastTitle);
-
     forecastWeatherEl.textContent = "";
+    
+    
 
     for (var i = 0; i < 5; i++) {
 
@@ -127,7 +125,6 @@ var displayWeather = function(weather) {
         cardEl.appendChild(wind);
         cardEl.appendChild(humidity);
 
-        
         forecastWeatherEl.appendChild(cardEl);
     }
 
@@ -158,7 +155,10 @@ var formSubmitHandler = function(event) {
 
     if (cityName) {
         convertCity(cityName);
+
         citySearchTerm.textContent = "Showing weather data for: " + cityName;
+        forecastTitleEl.textContent = "5-Day Forecast:";
+
         cityInputEl.value = "";
 
         // create searched city button
