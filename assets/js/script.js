@@ -14,16 +14,17 @@ var searchedCitiesEl = document.querySelector("#searches");
 var convertCity = function(cityName) {
     var city = cityName;
 
-    var GeoApiUrl = "https://api.positionstack.com/v1/forward?access_key=ec6d3b2bdaeed7dd7de72fa6da1bd2ef&query=" + city +"&limit=1";
+    var GeoApiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&appid=914d3b53de5d88e879e5979ff877074b";
     
     fetch(GeoApiUrl)
     .then(function(response) {
+        console.log(response);
         if (response.ok) {
             response.json().then(function(location) {
                 console.log(location, city);
                 
-                var lat = location.data[0].latitude;
-                var lon = location.data[0].longitude;
+                var lat = location[0].lat;
+                var lon = location[0].lon;
                 console.log(lat, lon);
 
                 getCityWeather(lat, lon);
