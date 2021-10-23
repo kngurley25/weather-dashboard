@@ -193,8 +193,10 @@ var formSubmitHandler = function(event) {
             pastCityEl.textContent = cityName;
             pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
             searchedCitiesEl.appendChild(pastCityEl);
+
+            pastCityEl.addEventListener("click", formSubmitHandler);
         }
-        pastCityEl.addEventListener("click", formSubmitHandler);
+        
  
         saveSearches();
 
