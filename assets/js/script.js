@@ -179,17 +179,22 @@ var formSubmitHandler = function(event) {
         cityInputEl.value = "";
 
         // print searched city button to page
-        var pastCityEl = document.createElement("button");
-            pastCityEl.textContent = cityName;
-            pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
-            searchedCitiesEl.appendChild(pastCityEl);
-            pastCityEl.addEventListener("click", formSubmitHandler);
+        // var pastCityEl = document.createElement("button");
+        //     pastCityEl.textContent = cityName;
+        //     pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+        //     searchedCitiesEl.appendChild(pastCityEl);
+        //     pastCityEl.addEventListener("click", formSubmitHandler);
 
         // save searched city to array
         if (pastSearches.includes(cityName) === false) {
             pastSearches.push(cityName);
-            // console.log(pastSearches);
+
+            var pastCityEl = document.createElement("button");
+            pastCityEl.textContent = cityName;
+            pastCityEl.classList = "btn waves-effect waves-light blue-grey lighten-4 black-text";
+            searchedCitiesEl.appendChild(pastCityEl);
         }
+        pastCityEl.addEventListener("click", formSubmitHandler);
  
         saveSearches();
 
