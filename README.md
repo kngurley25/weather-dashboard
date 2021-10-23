@@ -11,7 +11,6 @@ An application in which a user can search by city to view current weather and fi
 
 With the following APIs:
 - OpenWeather
-- positionstack
 - Materialize CSS
 
 ## Website
